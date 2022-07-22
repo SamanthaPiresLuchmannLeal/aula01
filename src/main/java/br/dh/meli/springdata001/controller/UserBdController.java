@@ -2,14 +2,13 @@ package br.dh.meli.springdata001.controller;
 
 import br.dh.meli.springdata001.model.UserBD;
 import br.dh.meli.springdata001.service.UserService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @CrossOrigin("*")
@@ -21,12 +20,12 @@ public class UserBdController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserBD> buscaPorId(@PathVariable long id) {
-        Optional<UserBD> userFound = service.getUserById(id);
+         return ResponseEntity.ok(service.getUserById(id));
+    }
 
-        if(userFound.isPresent()) {
-            return ResponseEntity.ok(userFound.get());
-        }
-        return ResponseEntity.notFound().build();
+    @GetMapping("/email/{email}")
+    public ResponseEntity<UserBD> buscaPorEmail(@PathVariable String email) {
+        return ResponseEntity.ok(service.findByEmail(email));
     }
 
     @PostMapping
@@ -38,13 +37,8 @@ public class UserBdController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable long id){
-        Optional<UserBD> userFound = service.getUserById(id);
-
-        if(userFound.isPresent()) {
             service.deleteUser(id);
             return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
     }
 
     @GetMapping
@@ -52,6 +46,14 @@ public class UserBdController {
         return ResponseEntity.ok(service.listAll());
     }
 
-    // TODO: verificar como fazer os IDs serem autocompletaveis, criamos e excluimos e os id sequenciais estao com furo
 
+    @PutMapping
+    public ResponseEntity<UserBD> updateuser(@RequestBody UserBD user) {
+        return ResponseEntity.ok(service.update(user));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<UserBD> updateUser(@PathVariable long id, @RequestBody Map<String, String> changes) {
+        return ResponseEntity.ok(service.updatePartial(id, changes));
+    }
 }
