@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -21,6 +22,7 @@ public class Book {
     @JsonIgnoreProperties("books")
     private Subject subject;
 
-
-
+    @ManyToMany(mappedBy = "books")
+    @JsonIgnoreProperties("books")
+    private List<Author> authors;
 }
