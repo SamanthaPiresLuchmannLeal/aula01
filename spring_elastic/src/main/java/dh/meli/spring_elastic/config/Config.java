@@ -12,7 +12,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 @Configuration
-@EnableElasticsearchRepositories(basePackages = "dh.meli.spring_elastic.repository")
+@EnableElasticsearchRepositories(basePackages = "dh.meli.sring_elastic.repository")
 @ComponentScan(basePackages = "dh.meli.spring_elastic")
 public class Config {
 
@@ -32,3 +32,5 @@ public class Config {
         return new ElasticsearchRestTemplate(client());
     }
 }
+// Para visualizar o arquivo gerado com os dados armazenados, acessar o local abaixo:
+// http://localhost:9200/meli_doc/_search
